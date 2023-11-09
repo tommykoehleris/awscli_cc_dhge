@@ -11,6 +11,7 @@ Param(
 $amiID = "ami-0fc5d935ebf8bc3bc"
 $InstanceType = "t2.micro"
 $Username = $env:USERNAME
+<#Path for SSH-Key Security#>
 $KeyPairPath = "$env:USERPROFILE\.ssh\current-key.pem"
 
 <#Generating Key-Pair for EC2#>
@@ -18,11 +19,6 @@ Write-Output "### Creating Key-Pair for current User $Username ###"
 Start-Sleep -Seconds 3
 aws ec2 create-key-pair --key-name current-key-pair --query "KeyMaterial" --output text > $KeyPairPath
 (Get-Content -Path $KeyPairPath -Raw) -replace "`r`n", "`n" | Set-Content -Path $KeyPairPath 
-
-<#Setting up SSH-Key Permissions
-Write-Output "### Setting up SSH-Key Permissions for User $Username ###"
-Start-Sleep -Seconds 3
-#>
 
 <#Generating Sec-Group in EC2#>
 Write-Output "### Creating Security-Group for EC2 ###"
