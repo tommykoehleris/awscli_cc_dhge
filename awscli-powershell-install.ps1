@@ -1,10 +1,5 @@
-# Setting protocol versions
-
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
-[Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
-
-$source = 'https://awscli.amazonaws.com/AWSCLIV2.msi'
-$destination = 'C:\Users\toko\Downloads\AWSCLIV2.msi'
+$source = "https://awscli.amazonaws.com/AWSCLIV2.msi"
+$destination = "$env:USERPROFILE\Downloads\AWSCLIV2.msi"
 
 # Create web client
 $webClient = [System.Net.WebClient]::new()

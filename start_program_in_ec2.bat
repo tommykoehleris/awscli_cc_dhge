@@ -1,1 +1,0 @@
-./automated-execution.ps1 "F:\OneDrive\PI21\awscli_cc_dhge\out.exe" 1

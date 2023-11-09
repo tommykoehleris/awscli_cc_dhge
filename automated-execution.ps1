@@ -1,15 +1,17 @@
+<#current AWS Sessions Credentials need to be copied in File: C:\Users\...\.aws\Credentials#>
+
 <#Definition der Parameter#>
 Param(
-    [Parameter(Mandatory=$False)]
+    [Parameter(Mandatory=$false)]
     [string]$ProgramPath = "script.sh",
 
-    [Parameter(Mandatory=$False)]
-    [int]$NumberofInstances = 1
+    [Parameter(Mandatory=$true)]
+    [string]$InstanceType = "t2.micro"
 )
 
-<#current AWS Sessions Credentials need to be copied in File: C:\Users\...\.aws\Credentials#>
+<#Ubuntu AMI#>
 $amiID = "ami-0fc5d935ebf8bc3bc"
-$InstanceType = "t2.micro"
+<#get Current Username#>
 $Username = $env:USERNAME
 <#Path for SSH-Key Security#>
 $KeyPairPath = "$env:USERPROFILE\.ssh\current-key.pem"
@@ -33,7 +35,7 @@ aws ec2 authorize-security-group-ingress --group-id $SecGroupID --protocol tcp -
 <#Creating EC2 Instance and getting Public IP of the Instance#>
 Write-Output "### Creating EC2-Ubuntu Instance ###"
 Start-Sleep -Seconds 3
-$InstanceId = aws ec2 run-instances --image-id $amiID --count $NumberofInstances --instance-type $InstanceType --key-name current-key-pair --security-group-ids $SecGroupID --query 'Instances[0].InstanceId' --output text
+$InstanceId = aws ec2 run-instances --image-id $amiID --count 1 --instance-type $InstanceType --key-name current-key-pair --security-group-ids $SecGroupID --query 'Instances[0].InstanceId' --output text
 $InstanceIP = aws ec2 describe-instances --instance-ids $InstanceId --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
 
 <#Wait until EC2 Instance is set up and running#>
